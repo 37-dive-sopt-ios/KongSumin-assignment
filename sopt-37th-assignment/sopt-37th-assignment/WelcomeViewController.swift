@@ -9,9 +9,17 @@ import Foundation
 import UIKit
 import SnapKit
 
+//MARK: - Protocol
+protocol LoginViewControllerDelegate: AnyObject {
+    func resetLoginFields()
+}
+
+//MARK: - WelcomeViewController
 class WelcomeViewController: UIViewController {
     var userId: String?
+    weak var delegate: LoginViewControllerDelegate?
     
+    // MARK: - UI Component
     lazy var navigationBar: UINavigationBar = {
         let navigationBar = UINavigationBar()
         let navItem = UINavigationItem(title : "로그인 성공!! Welcome")
@@ -19,46 +27,10 @@ class WelcomeViewController: UIViewController {
         return navigationBar
     }()
     
-    
     lazy var imageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "image21"))
         return imageView
     }()
-    
-    
-    lazy var welcomeLable: UILabel = {
-        let welcomeLable = UILabel()
-        welcomeLable.text = "환영합니다"
-        welcomeLable.font = Fontmanager.head_b_24.font
-        welcomeLable.textColor = .baeminBlack
-        welcomeLable.textAlignment = .center
-        return welcomeLable
-    }()
-    lazy var hiLable: UILabel = {
-        let hiLable = UILabel()
-        hiLable.text = "??님 반가워요!"
-        hiLable.font = Fontmanager.title_sb_18.font
-        hiLable.textColor = .baeminBlack
-        hiLable.textAlignment = .center
-        return hiLable
-    }()
-    
-    
-    @objc
-    private func backButtonDidTap() {
-        if let navigationController = self.navigationController {
-            if let loginVC = navigationController.viewControllers.first(where: { $0 is LoginViewController }) as? LoginViewController{
-                loginVC.idTextField.text = ""
-                loginVC.passwordTextField.text = ""
-                loginVC.updateLoginButtonState()
-            }
-            self.navigationController?.popViewController(animated: true)
-        }else{
-            self.dismiss(animated: true)
-        }
-    }
-    
-    
     
     lazy var backButton: UIButton = {
         let button = UIButton(type: .system)
@@ -70,7 +42,36 @@ class WelcomeViewController: UIViewController {
         return button
     }()
     
+    lazy var welcomeLable: UILabel = {
+        let welcomeLable = UILabel()
+        welcomeLable.text = "환영합니다"
+        welcomeLable.font = Fontmanager.head_b_24.font
+        welcomeLable.textColor = .baeminBlack
+        welcomeLable.textAlignment = .center
+        return welcomeLable
+    }()
     
+    lazy var hiLable: UILabel = {
+        let hiLable = UILabel()
+        hiLable.text = "??님 반가워요!"
+        hiLable.font = Fontmanager.title_sb_18.font
+        hiLable.textColor = .baeminBlack
+        hiLable.textAlignment = .center
+        return hiLable
+    }()
+    
+    // MARK: - METHOD
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setUI()
+        setLayout()
+        bindID()
+    }
+    @objc
+    private func backButtonDidTap() {
+        delegate?.resetLoginFields()
+        navigationController?.popViewController(animated: true)
+    }
     
     private func setUI(){
         self.view.backgroundColor = .white
@@ -111,13 +112,6 @@ class WelcomeViewController: UIViewController {
     private func bindID(){
         guard let id = userId else {return}
         self.hiLable.text = "\(id)님 반가워요!"
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setUI()
-        setLayout()
-        bindID()
     }
 }
 
