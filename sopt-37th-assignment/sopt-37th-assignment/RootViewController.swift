@@ -20,6 +20,7 @@ class RootViewController: UIViewController {
     // MARK: - UI Component
     private lazy var stickyHeader = UIView()
     private lazy var bottomView = BottomView()
+    private lazy var tabBar = RootTabBar()
     
     private lazy var locationButton = UIButton().then {
         $0.setTitle("우리집", for: .normal)
@@ -146,10 +147,15 @@ class RootViewController: UIViewController {
         let bottomView = BottomView()
         bottomView.backgroundColor = .baeminMint500
         view.addSubview(bottomView)
+        view.addSubview(tabBar)
         bottomView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(eventTextButton.snp.bottom)
-            $0.bottom.equalToSuperview()
+            $0.bottom.equalTo(tabBar.snp.top)
+        }
+        tabBar.snp.makeConstraints {
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(82)
         }
     }
     

@@ -12,6 +12,7 @@ import SnapKit
 class BottomView: UIView {
     // MARK: - Properties
     private let tabs: [String] = ["음식배달", "픽업", "장보기쇼핑", "선물하기", "혜택모아보기"]
+    private lazy var foodMenuView = FoodMenuController()
     private let adImages: [UIImage] = [
         UIImage(named: "image21")!,
         UIImage(named: "image21")!,
@@ -81,9 +82,15 @@ class BottomView: UIView {
             indicatorWidthConstraint = $0.width.equalTo(0).constraint
             indicatorLeadingConstraint = $0.leading.equalToSuperview().constraint
         }
+        addSubview(foodMenuView.view)
+        foodMenuView.view.snp.makeConstraints {
+            $0.top.equalTo(indicatorView.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(168)
+        }
         addSubview(adCollectionView)
         adCollectionView.snp.makeConstraints {
-            $0.top.equalTo(indicatorView.snp.bottom)
+            $0.top.equalTo(foodMenuView.view.snp.bottom)
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(114)
         }

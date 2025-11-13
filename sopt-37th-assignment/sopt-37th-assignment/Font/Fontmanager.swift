@@ -42,6 +42,7 @@ public enum Fontmanager{
     case title_sb_18
     case body_r_14
     case caption_r_10
+    case body_r_10
     
     public var fontProperty: FontProperty{
         switch self {
@@ -55,7 +56,8 @@ public enum Fontmanager{
             return FontProperty(font: .regular, size: 14, lineHeight: 100, kern: -4)
         case .caption_r_10:
             return FontProperty(font: .regular, size: 10, lineHeight: 100, kern: -4)
-        
+        case .body_r_10:
+            return FontProperty(font: .regular, size: 10, lineHeight: 100, kern: -4)
         }
     }
 }
