@@ -22,7 +22,7 @@ class WelcomeViewController: UIViewController {
     // MARK: - UI Component
     lazy var navigationBar: UINavigationBar = {
         let navigationBar = UINavigationBar()
-        let navItem = UINavigationItem(title : "로그인 성공!! Welcome")
+        let navItem = UINavigationItem(title : "대체 뼈찜 누가 시켰어??")
         navigationBar.setItems([navItem], animated: false)
         return navigationBar
     }()
