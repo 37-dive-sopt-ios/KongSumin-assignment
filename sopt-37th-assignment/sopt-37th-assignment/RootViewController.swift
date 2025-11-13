@@ -10,7 +10,7 @@ import Then
 import SnapKit
 
 //MARK: - rootViewController
-class rootViewController: UIViewController {
+class RootViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUI()
@@ -19,6 +19,8 @@ class rootViewController: UIViewController {
     
     // MARK: - UI Component
     private lazy var stickyHeader = UIView()
+    private lazy var bottomView = BottomView()
+    
     private lazy var locationButton = UIButton().then {
         $0.setTitle("우리집", for: .normal)
         $0.setImage(.polygon, for: .normal)
@@ -82,7 +84,9 @@ class rootViewController: UIViewController {
     
     private func setLayout(){
         setTopUIs()
+        setBottomUIs()
     }
+    
     
     private func setTopUIs() {
         view.addSubview(stickyHeader)
@@ -131,13 +135,22 @@ class rootViewController: UIViewController {
             $0.width.equalTo(50)
         }
         eventTextButton.snp.makeConstraints{
-            $0.centerY.equalTo(bmartImageView.snp.bottom).offset(6)
+            $0.top.equalTo(bmartImageView.snp.bottom).offset(6)
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(40)
             
         }
-        
-        
+    }
+    
+    private func setBottomUIs(){
+        let bottomView = BottomView()
+        bottomView.backgroundColor = .baeminMint500
+        view.addSubview(bottomView)
+        bottomView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(eventTextButton.snp.bottom)
+            $0.bottom.equalToSuperview()
+        }
     }
     
     
@@ -152,5 +165,5 @@ class rootViewController: UIViewController {
 
 
 #Preview {
-    rootViewController()
+    RootViewController()
 }
