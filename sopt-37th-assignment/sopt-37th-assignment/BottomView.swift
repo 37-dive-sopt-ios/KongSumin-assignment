@@ -10,6 +10,10 @@ import Then
 import SnapKit
 
 class BottomView: UIView {
+    
+    private let scrollView = UIScrollView()
+    private let contentView = UIView()
+    
     // MARK: - Properties
     private let tabs: [String] = ["음식배달", "픽업", "장보기쇼핑", "선물하기", "혜택모아보기"]
     private lazy var foodMenuView = FoodMenuController()
@@ -72,6 +76,7 @@ class BottomView: UIView {
         button.setTitleColor(.baeminBlack, for: .normal)
         return button
     }()
+    private var listView = BottomListView()
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -92,58 +97,74 @@ class BottomView: UIView {
     
     // MARK: - Layout
     private func setupUI() {
-        addSubview(bmartImageView)
+        addSubview(scrollView)
+        scrollView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+            $0.width.equalToSuperview()
+        }
+        contentView.addSubview(bmartImageView)
         bmartImageView.snp.makeConstraints{
             $0.top.equalToSuperview()
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(16)
             $0.width.equalTo(50)
         }
-        addSubview(eventTextButton)
+        contentView.addSubview(eventTextButton)
         eventTextButton.snp.makeConstraints{
             $0.top.equalTo(bmartImageView.snp.bottom).offset(6)
             $0.leading.equalToSuperview().inset(16)
             $0.height.equalTo(40)
         }
         
-        addSubview(menuCollectionView)
+        contentView.addSubview(menuCollectionView)
         menuCollectionView.snp.makeConstraints {
             $0.top.equalTo(eventTextButton.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(50)
         }
         
-        addSubview(indicatorView)
+        contentView.addSubview(indicatorView)
         indicatorView.snp.makeConstraints {
             $0.top.equalTo(menuCollectionView.snp.bottom)
             $0.height.equalTo(3)
             indicatorWidthConstraint = $0.width.equalTo(0).constraint
             indicatorLeadingConstraint = $0.leading.equalToSuperview().constraint
         }
-        addSubview(foodMenuView.view)
+        contentView.addSubview(foodMenuView.view)
         foodMenuView.view.snp.makeConstraints {
             $0.top.equalTo(indicatorView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(168)
         }
-        addSubview(seeMoreButton)
+        contentView.addSubview(seeMoreButton)
         seeMoreButton.snp.makeConstraints {
             $0.top.equalTo(foodMenuView.view.snp.bottom).offset(21)
             $0.centerX.equalToSuperview()
             $0.height.equalTo(34)
         }
-        addSubview(storeController.view)
+        contentView.addSubview(storeController.view)
         storeController.view.snp.makeConstraints {
             $0.top.equalTo(seeMoreButton.snp.bottom).offset(10)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(116)
         }
-        addSubview(adCollectionView)
+        contentView.addSubview(adCollectionView)
         adCollectionView.snp.makeConstraints {
             $0.top.equalTo(storeController.view.snp.bottom).offset(10)
             $0.leading.trailing.bottom.equalToSuperview()
-            $0.height.equalTo(114)
-        }        
+            $0.height.equalTo(500)
+        }
+        contentView.addSubview(listView)
+        listView.snp.makeConstraints {
+            $0.top.equalTo(adCollectionView.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.height.equalTo(400)
+        }
+        
     }
     
     // MARK: - Tab Selection

@@ -34,7 +34,7 @@ class WelcomeViewController: UIViewController {
     
     lazy var backButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("뒤로가기", for: .normal)
+        button.setTitle("메인으로 가기", for: .normal)
         button.titleLabel?.font = Fontmanager.head_b_18.font
         button.setTitleColor(.baeminWhite, for: .normal)
         button.backgroundColor = .baeminMint500
@@ -70,7 +70,8 @@ class WelcomeViewController: UIViewController {
     @objc
     private func backButtonDidTap() {
         delegate?.resetLoginFields()
-        navigationController?.popViewController(animated: true)
+        let rootVC = RootViewController()
+        navigationController?.setViewControllers([rootVC], animated: true)
     }
     
     private func setUI(){

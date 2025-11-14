@@ -62,9 +62,6 @@ class RootViewController: UIViewController {
         $0.rightView = iconContainer
         $0.rightViewMode = .always
     }
-
-    
-    
     
     //MARK: - UI
     private func setUI(){
@@ -113,19 +110,17 @@ class RootViewController: UIViewController {
             $0.centerY.equalTo(stickyHeader.snp.bottom).offset(8)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(40)
-            
         }
         
     }
     
     private func setBottomUIs(){
-        let bottomView = BottomView()
-        bottomView.backgroundColor = .baeminGray200
         view.addSubview(bottomView)
         view.addSubview(tabBar)
+        bottomView.backgroundColor = .baeminGray200
         bottomView.snp.makeConstraints {
+            $0.top.equalTo(searchField.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(searchField.snp.bottom).offset(24)
             $0.bottom.equalTo(tabBar.snp.top)
         }
         tabBar.snp.makeConstraints {
@@ -133,15 +128,6 @@ class RootViewController: UIViewController {
             $0.height.equalTo(82)
         }
     }
-    
-    
-    
-    
-//    private func bind(){
-//        
-//    }
-    
-    //MARK: - function
 }
 
 
