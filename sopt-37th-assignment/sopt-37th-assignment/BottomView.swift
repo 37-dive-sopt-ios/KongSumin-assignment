@@ -13,11 +13,26 @@ class BottomView: UIView {
     // MARK: - Properties
     private let tabs: [String] = ["음식배달", "픽업", "장보기쇼핑", "선물하기", "혜택모아보기"]
     private lazy var foodMenuView = FoodMenuController()
+    private lazy var storeController = StoreController()
     private let adImages: [UIImage] = [
         UIImage(named: "image21")!,
         UIImage(named: "image21")!,
         UIImage(named: "image21")!
     ]
+    private lazy var bmartImageView = UIImageView().then{
+        $0.image = .eventBtn
+    }
+    private lazy var eventTextButton = UIButton().then{
+        $0.setTitle("전상품 쿠폰팩 + 60%특가", for: .normal)
+        $0.setImage(UIImage(systemName: "chevron.right"), for: .normal)
+        $0.tintColor = .baeminBlack
+        $0.setTitleColor(.baeminBlack, for: .normal)
+        $0.semanticContentAttribute = .forceRightToLeft
+        $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: -4)
+        $0.setTitleColor(.baeminBlack, for: .normal)
+        $0.titleLabel?.font = Fontmanager.head_b_18.font
+    }    
+    
     private lazy var adCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -42,6 +57,7 @@ class BottomView: UIView {
         cv.register(TabCell.self, forCellWithReuseIdentifier: "TabCell")
         return cv
     }()
+    
     private let indicatorView = UIView().then {
         $0.backgroundColor = .baeminBlack
         $0.layer.cornerRadius = 1.5
@@ -49,6 +65,13 @@ class BottomView: UIView {
     private var indicatorLeadingConstraint: Constraint?
     private var indicatorWidthConstraint: Constraint?
     private var selectedIndex: Int = 0
+    private lazy var seeMoreButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("\(tabs[selectedIndex]) 에서 더보기 >", for: .normal)
+        button.titleLabel?.font = Fontmanager.head_b_18.font
+        button.setTitleColor(.baeminBlack, for: .normal)
+        return button
+    }()
     
     // MARK: - Init
     override init(frame: CGRect) {
@@ -69,9 +92,24 @@ class BottomView: UIView {
     
     // MARK: - Layout
     private func setupUI() {
+        addSubview(bmartImageView)
+        bmartImageView.snp.makeConstraints{
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview().inset(16)
+            $0.height.equalTo(16)
+            $0.width.equalTo(50)
+        }
+        addSubview(eventTextButton)
+        eventTextButton.snp.makeConstraints{
+            $0.top.equalTo(bmartImageView.snp.bottom).offset(6)
+            $0.leading.equalToSuperview().inset(16)
+            $0.height.equalTo(40)
+        }
+        
         addSubview(menuCollectionView)
         menuCollectionView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+            $0.top.equalTo(eventTextButton.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(50)
         }
         
@@ -88,12 +126,24 @@ class BottomView: UIView {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(168)
         }
+        addSubview(seeMoreButton)
+        seeMoreButton.snp.makeConstraints {
+            $0.top.equalTo(foodMenuView.view.snp.bottom).offset(21)
+            $0.centerX.equalToSuperview()
+            $0.height.equalTo(34)
+        }
+        addSubview(storeController.view)
+        storeController.view.snp.makeConstraints {
+            $0.top.equalTo(seeMoreButton.snp.bottom).offset(10)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(116)
+        }
         addSubview(adCollectionView)
         adCollectionView.snp.makeConstraints {
-            $0.top.equalTo(foodMenuView.view.snp.bottom)
+            $0.top.equalTo(storeController.view.snp.bottom).offset(10)
             $0.leading.trailing.bottom.equalToSuperview()
             $0.height.equalTo(114)
-        }
+        }        
     }
     
     // MARK: - Tab Selection
@@ -107,6 +157,7 @@ class BottomView: UIView {
         let width = cell?.frame.width ?? 0
         indicatorLeadingConstraint?.update(offset: leading)
         indicatorWidthConstraint?.update(offset: width)
+        seeMoreButton.setTitle("\(tabs[selectedIndex]) 에서 더보기 >", for: .normal)
     }
 }
 
@@ -152,7 +203,7 @@ extension BottomView: UICollectionViewDataSource, UICollectionViewDelegateFlowLa
 
 #Preview {
     let bottomView = BottomView()
-    bottomView.frame = CGRect(x: 0, y: 0, width: 393, height: 120)
+    bottomView.frame = CGRect(x: 0, y: 0, width: 393, height: 600)
     bottomView.backgroundColor = .systemBlue
     return bottomView
 }

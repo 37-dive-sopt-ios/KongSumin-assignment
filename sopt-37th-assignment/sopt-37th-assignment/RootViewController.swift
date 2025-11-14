@@ -63,19 +63,7 @@ class RootViewController: UIViewController {
         $0.rightViewMode = .always
     }
 
-    private lazy var bmartImageView = UIImageView().then{
-        $0.image = .eventBtn
-    }
-    private lazy var eventTextButton = UIButton().then{
-        $0.setTitle("전상품 쿠폰팩 + 60%특가", for: .normal)
-        $0.setImage(UIImage(systemName: "chevron.right"), for: .normal)
-        $0.tintColor = .baeminBlack
-        $0.setTitleColor(.baeminBlack, for: .normal)
-        $0.semanticContentAttribute = .forceRightToLeft
-        $0.imageEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: -4)
-        $0.setTitleColor(.baeminBlack, for: .normal)
-        $0.titleLabel?.font = Fontmanager.head_b_18.font
-    }
+    
     
     
     //MARK: - UI
@@ -96,8 +84,6 @@ class RootViewController: UIViewController {
         stickyHeader.addSubview(notificationButton)
         stickyHeader.addSubview(dividerButton)
         stickyHeader.addSubview(searchField)
-        stickyHeader.addSubview(bmartImageView)
-        stickyHeader.addSubview(eventTextButton)
         stickyHeader.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.leading.trailing.equalToSuperview()
@@ -129,28 +115,17 @@ class RootViewController: UIViewController {
             $0.height.equalTo(40)
             
         }
-        bmartImageView.snp.makeConstraints{
-            $0.centerY.equalTo(searchField.snp.bottom).offset(24)
-            $0.leading.equalToSuperview().inset(16)
-            $0.height.equalTo(16)
-            $0.width.equalTo(50)
-        }
-        eventTextButton.snp.makeConstraints{
-            $0.top.equalTo(bmartImageView.snp.bottom).offset(6)
-            $0.leading.equalToSuperview().inset(16)
-            $0.height.equalTo(40)
-            
-        }
+        
     }
     
     private func setBottomUIs(){
         let bottomView = BottomView()
-        bottomView.backgroundColor = .baeminMint500
+        bottomView.backgroundColor = .baeminGray200
         view.addSubview(bottomView)
         view.addSubview(tabBar)
         bottomView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(eventTextButton.snp.bottom)
+            $0.top.equalTo(searchField.snp.bottom).offset(24)
             $0.bottom.equalTo(tabBar.snp.top)
         }
         tabBar.snp.makeConstraints {

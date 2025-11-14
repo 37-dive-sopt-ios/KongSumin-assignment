@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-public final class FoodMenuController: UIViewController {
+public final class StoreController: UIViewController {
     // MARK: - Properties
     private let lineSpacing: CGFloat = 10
     private let itemSpacing: CGFloat = 21
@@ -27,15 +27,7 @@ public final class FoodMenuController: UIViewController {
        return collectionView
     }()
     
-    private var foods: [FoodModel] = []
-    
-    private lazy var moreButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("더보기", for: .normal)
-        button.setTitleColor(.baeminBlack, for: .normal)
-        button.titleLabel?.font = Fontmanager.body_r_14.font
-        return button
-    }()
+    var stores: [StoreModel] = []
     
     //MARK: - Lifecycle
     public override func viewDidLoad() {
@@ -49,7 +41,6 @@ public final class FoodMenuController: UIViewController {
     // MARK: - UI & Layout
         private func setUI() {
             view.backgroundColor = .white
-            title = "피드"
         }
         
         private func setLayout() {
@@ -61,7 +52,7 @@ public final class FoodMenuController: UIViewController {
         }
         
         private func register() {
-            collectionView.register(FoodMenuCollectionViewCell.self, forCellWithReuseIdentifier: FoodMenuCollectionViewCell.identifier)
+            collectionView.register(StoreCollectionViewCell.self, forCellWithReuseIdentifier: StoreCollectionViewCell.identifier)
         }
         
         private func setDelegate() {
@@ -72,41 +63,41 @@ public final class FoodMenuController: UIViewController {
         // MARK: - Data
         
         private func loadMockData() {
-            foods = FoodModel.mockData
+            stores = StoreModel.mockData
             collectionView.reloadData()
         }
 }
 // MARK: - UICollectionViewDelegate
-extension FoodMenuController: UICollectionViewDelegate {
+extension StoreController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("\(foods[indexPath.item].name) 선택됨")
+        print("\(stores[indexPath.item].name) 선택됨")
     }
 }
 
 // MARK: - UICollectionViewDataSource
-extension FoodMenuController: UICollectionViewDataSource {
+extension StoreController: UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return foods.count
+        return stores.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FoodMenuCollectionViewCell.identifier, for: indexPath) as? FoodMenuCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: StoreCollectionViewCell.identifier, for: indexPath) as? StoreCollectionViewCell else {
             return UICollectionViewCell()
         }
         
-        cell.configure(food: foods[indexPath.item])
+        cell.configure(store: stores[indexPath.item])
         return cell
     }
 }
 
 
 // MARK: - UICollectionViewDelegateFlowLayout
-extension FoodMenuController: UICollectionViewDelegateFlowLayout {
+extension StoreController: UICollectionViewDelegateFlowLayout {
     public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 62, height: 78)
     }
 }
 
 #Preview {
-    FoodMenuController(nibName: nil, bundle: nil)
+    StoreController(nibName: nil, bundle: nil)
 }
