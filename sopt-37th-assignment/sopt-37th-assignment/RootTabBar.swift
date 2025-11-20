@@ -18,7 +18,7 @@ class RootTabBar: UIView {
     // MARK: - Properties
     private let tabItems: [(title: String, icon: UIImage?)] = [
         ("홈", UIImage(named: "home")),
-        ("장보기쇼핑", UIImage(named: "shopping")),
+        ("서버", UIImage(named: "shopping")),
         ("찜", UIImage(named: "like")),
         ("주문내역", UIImage(named: "order")),
         ("마이배민", UIImage(named: "mypage")),
@@ -53,8 +53,8 @@ class RootTabBar: UIView {
             var config = UIButton.Configuration.plain()
             config.title = item.title
             config.image = item.icon
-            config.imagePlacement = .top         // 이미지 위, 텍스트 아래
-            config.imagePadding = 4              // 이미지와 텍스트 간격
+            config.imagePlacement = .top
+            config.imagePadding = 4
             config.baseForegroundColor = .baeminGray700
             config.titleTextAttributesTransformer = UIConfigurationTextAttributesTransformer { incoming in
                 var outgoing = incoming

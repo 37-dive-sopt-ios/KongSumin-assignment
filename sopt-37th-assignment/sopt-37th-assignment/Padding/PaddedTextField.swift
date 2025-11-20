@@ -19,4 +19,7 @@ class PaddedTextField: UITextField {//padding있는 텍스트필드 형식
         }
         return insetBounds
     }
+    
+    
+    
 }

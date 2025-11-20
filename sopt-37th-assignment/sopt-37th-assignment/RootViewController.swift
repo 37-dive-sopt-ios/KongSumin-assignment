@@ -63,6 +63,12 @@ class RootViewController: UIViewController {
         $0.rightViewMode = .always
     }
     
+    private lazy var viewController: [UIViewController] = [
+        ServerViewController()
+    ]
+    
+    
+    
     //MARK: - UI
     private func setUI(){
         self.view.backgroundColor = .white
