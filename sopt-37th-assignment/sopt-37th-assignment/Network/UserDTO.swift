@@ -31,5 +31,37 @@ struct LoginResponse: Decodable {
 struct UpdateUserRequest: Encodable {
     let name: String?
     let email: String?
+//    let age: Int?
+}
+
+/// 유저 등록 API
+struct RegisterRequest: Encodable {
+    let username: String
+    let password: String
+    let name: String
+    let email: String
+    let age: Int
+}
+
+/// 회원가입 응답 모델
+struct RegisterResponse: Decodable {
+    let username: String
+    let password: String
+    let name: String
+    let email: String
+    let age: Int
+}
+
+/// 개인정보 조회  API
+struct UserInfoRequest: Encodable {
+    let id: Int
+}
+
+
+/// 개인정보 수정  API
+struct ModifyInfoRequest: Encodable {
+    let id: Int
+    let name: String?
+    let email: String?
     let age: Int?
 }
