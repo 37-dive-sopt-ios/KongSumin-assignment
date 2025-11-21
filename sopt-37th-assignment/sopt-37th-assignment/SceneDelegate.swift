@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // 2.
           let window = UIWindow(windowScene: windowScene)
         // 3.
-          let vc = UINavigationController(rootViewController: ServerViewController())
+          let vc = UINavigationController(rootViewController: RootViewController())
         // 4.
           window.rootViewController = vc
         // 5.

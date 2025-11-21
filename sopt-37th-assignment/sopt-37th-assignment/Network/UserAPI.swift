@@ -12,6 +12,7 @@ enum UserAPI {
     case login(LoginRequest)                 // POST /api/v1/auth/login - 로그인
     case userInfo(UserInfoRequest)
     case modifyInfo(ModifyInfoRequest)
+    case inActive(InActiveUserRequest)
 }
 
 extension UserAPI: TargetType {
@@ -32,6 +33,8 @@ extension UserAPI: TargetType {
             return "/api/v1/users/\(request.id)"
         case .modifyInfo(let request):
             return "/api/v1/users/\(request.id)"
+        case .inActive(let request):
+            return "/api/v1/users/\(request.id)"
         }
     
     }
@@ -45,7 +48,10 @@ extension UserAPI: TargetType {
             return .post
         case .userInfo:
             return .get
-        case .modifyInfo: return .patch
+        case .modifyInfo:
+            return .patch
+        case .inActive:
+            return .delete
         }
     }
 
@@ -59,9 +65,10 @@ extension UserAPI: TargetType {
             // JSON 인코딩 가능한 객체를 바디로 전송
             return .requestJSONEncodable(request)
         case .userInfo(let request):
-            // JSON 인코딩 가능한 객체를 바디로 전송
             return .requestPlain
         case .modifyInfo(let request): return .requestJSONEncodable(request)
+        case .inActive(let request):
+                return .requestPlain
         }
     }
 
@@ -143,6 +150,19 @@ extension UserAPI {
             throw NetworkError.noData
         }
         
+        return data
+    }
+    
+    /// 회원탈퇴  API 요청 헬퍼
+    static func performInActiveUser(
+        id: Int,
+        provider: NetworkProviding = NetworkProvider()
+    ) async throws -> UserResponse {
+        let request = UserInfoRequest(id: id)
+        let response: BaseResponse<UserResponse> = try await provider.request(UserAPI.userInfo(request))
+        guard let data = response.data else {
+            throw NetworkError.noData
+        }
         return data
     }
 }

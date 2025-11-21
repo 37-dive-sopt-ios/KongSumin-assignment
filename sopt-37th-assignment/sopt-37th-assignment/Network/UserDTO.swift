@@ -57,11 +57,15 @@ struct UserInfoRequest: Encodable {
     let id: Int
 }
 
-
 /// 개인정보 수정  API
 struct ModifyInfoRequest: Encodable {
     let id: Int
     let name: String?
     let email: String?
     let age: Int?
+}
+
+/// 탈퇴(비활성화)  API
+struct InActiveUserRequest: Encodable {
+    let id: Int
 }

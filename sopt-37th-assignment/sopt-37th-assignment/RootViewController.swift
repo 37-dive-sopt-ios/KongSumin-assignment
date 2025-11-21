@@ -15,12 +15,21 @@ class RootViewController: UIViewController {
         super.viewDidLoad()
         setUI()
         setLayout()
+        tabBar.delegate = self
+        setupContainerView()
+        selectTab(index: 0)
     }
     
     // MARK: - UI Component
     private lazy var stickyHeader = UIView()
     private lazy var bottomView = BottomView()
     private lazy var tabBar = RootTabBar()
+    private lazy var homeViewController = UIViewController()
+    private lazy var serverViewController = ServerViewController()
+    private lazy var likeViewController = UIViewController()
+    private lazy var orderViewController = UIViewController()
+    private lazy var myPageViewController = UIViewController()
+    
     
     private lazy var locationButton = UIButton().then {
         $0.setTitle("우리집", for: .normal)
@@ -63,11 +72,36 @@ class RootViewController: UIViewController {
         $0.rightViewMode = .always
     }
     
-    private lazy var viewController: [UIViewController] = [
-        ServerViewController()
+    private lazy var viewControllers: [UIViewController] = [
+        homeViewController,
+        serverViewController,
+        likeViewController,
+        orderViewController,
+        myPageViewController
     ]
     
+    private let containerView = UIView()
     
+    
+    
+    private func setupContainerView() {
+       view.addSubview(containerView)
+       containerView.snp.makeConstraints { make in
+           make.top.equalTo(searchField.snp.bottom).offset(0)
+           make.leading.trailing.equalToSuperview()
+           make.bottom.equalTo(tabBar.snp.top)
+       }
+   }
+   
+   private func selectTab(index: Int) {
+       containerView.subviews.forEach { $0.removeFromSuperview() }
+       let selectedVC = viewControllers[index]
+       addChild(selectedVC)
+       containerView.addSubview(selectedVC.view)
+       selectedVC.view.frame = containerView.bounds
+       selectedVC.didMove(toParent: self)
+   }
+
     
     //MARK: - UI
     private func setUI(){
@@ -135,7 +169,12 @@ class RootViewController: UIViewController {
         }
     }
 }
-
+// MARK: - RootTabBar Delegate
+extension RootViewController: CustomTabBarDelegate {
+    func didSelectTab(index: Int) {
+        selectTab(index: index)
+    }
+}
 
 #Preview {
     RootViewController()
